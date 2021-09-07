@@ -16,5 +16,4 @@ pom.xml.asc
 Zoom
 *.xml
 *.iml
-.m2
 .classpath

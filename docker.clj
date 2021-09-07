@@ -1,17 +1,11 @@
 (ns docker
   "Docker build for babashka"
-  (:require [babashka.classpath :as cp]
-            [babashka.fs :as fs]
-            [babashka.tasks :as tasks]
-            [clojure.string :as str]))
+  (:require [babashka.tasks :as tasks]))
 
-(def cp (->> (cp/get-classpath)
-             (cp/split-classpath)
-             (map #(if (fs/absolute? %)
-                     (fs/relativize (fs/absolutize ".") %)
-                     %))
-             (str/join ":")))
+(println "Creating deps.jar")
+(tasks/shell "bb uberjar deps.jar")
 
-(spit ".classpath" cp)
+(println "Creating Docker image")
 (tasks/shell "docker build .")
-nil
+
+(println "Done!")
